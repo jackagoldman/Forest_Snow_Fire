@@ -26,21 +26,21 @@ These are the cleaned data that are used to generate all analyses and figures in
 | :---------------- | :------: | 
 | Fire_ID        |  Unique name identifyer for each fire | 
 | Fire_Year          |   Year that the fire burned (YYYY)   | 
-| Fire_Start    |  Date that fire started to burn as reported by Ontario Ministry of Natural Resources (YYYY-MM-DD)   | 
+| Fire_Start    |  Date that fire started to burn as reported by Ontario Ministry of Natural Resources and Forestry (YYYY-MM-DD)   | 
 | BurnDay |  Julian day of burn as identified using Google Earth Engine |
-| sdd | Snow disappearance date as indentified using Google Earth Engine |
-| tssm | |
-| avgBio ||
-| cc ||
-| age||
-| tri ||
-| RBR_median||
-| RBR_quant ||
-| RBR_cv ||
-| FIRE_FINAL ||
-| size_class ||
-| dc ||
-| pyroregion ||
+| sdd | Snow-free date as indentified using Google Earth Engine |
+| tssm | Snow-free duration calculated as difference between sdd and BurnDay |
+| avgBio | mean total aboveground biomass t/ ha|
+| cc | meanpercentage canopy closure|
+| age| mean stand age|
+| tri | mean terrain ruggedness index |
+| RBR_median| median relativized burn ratio |
+| RBR_quant | 90th percentile relativized burn ration|
+| RBR_cv | coefficent of variation of relativized burn ratio|
+| FIRE_FINAL |final fire size (ha) as reported by Ontario Ministry of Natural Resources and Forestry |
+| size_class | fire size class 1 = small < 500 ha, 2 = medium <= 500 ha & < 10,000 ha, 3 = large >= 10,000 ha|
+| dc | drought code as interpolated to the centroid of the fire perimeter|
+| pyroregion | east or west broeal shield. 1 = west, 0 = east |
 
 
 
