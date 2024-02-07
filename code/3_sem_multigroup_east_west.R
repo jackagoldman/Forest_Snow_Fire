@@ -6,6 +6,8 @@ source("code/1_sem_entire_shield.R")
 # reuqired packages
 library(nlme)
 library(piecewiseSEM)
+library(ggplot2)
+library(patchwork)
 
 
 # prepare data
@@ -157,3 +159,130 @@ df.diff_cc= (med_cc_df - sem_med_df)
 # PLOTS
 
 # collect coefficients
+# BIOMASS
+# west
+pc.sdd.bio.g1 <- lme(sdd ~  avgBio , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.tssm.sdd.g1 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.rbr.tssm.g1 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+coef1 <- coefs(pc.sdd.bio.g1)[,8]
+coef2 <- coefs(pc.tssm.sdd.g1)[,8]
+coef3 <- coefs(pc.rbr.tssm.g1)[,8]
+
+ind.path.bio.g1 <- (coef1*coef2*coef3)
+
+# east
+pc.sdd.bio.g2 <- lme(sdd ~  avgBio , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.tssm.sdd.g2 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.rbr.tssm.g2 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+coef1 <- coefs(pc.sdd.bio.g2)[,8]
+coef2 <- coefs(pc.tssm.sdd.g2)[,8]
+coef3 <- coefs(pc.rbr.tssm.g2)[,8]
+
+ind.path.bio.g2 <- (coef1*coef2*coef3)
+
+# Canopy closure
+#g1 = west, g2 = east
+# west
+pc.sdd.cc.g1 <- lme(sdd ~  cc , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.tssm.sdd.g1 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.rbr.tssm.g1 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+coef1 <- coefs(pc.sdd.cc.g1)[,8]
+coef2 <- coefs(pc.tssm.sdd.g1)[,8]
+coef3 <- coefs(pc.rbr.tssm.g1)[,8]
+
+ind.path.cc.g1 <- (coef1*coef2*coef3)
+
+#east
+pc.sdd.cc.g2 <- lme(sdd ~  cc , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.tssm.sdd.g2 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.rbr.tssm.g2 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+coef1 <- coefs(pc.sdd.cc.g2)[,8]
+coef2 <- coefs(pc.tssm.sdd.g2)[,8]
+coef3 <- coefs(pc.rbr.tssm.g2)[,8]
+
+ind.path.cc.g2 <- (coef1*coef2*coef3)
+
+# Stand Age
+#g1 = west, g2 = east
+pc.sdd.age.g1 <- lme(sdd ~  age , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.tssm.sdd.g1 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+pc.rbr.tssm.g1 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_w, method = "ML")
+
+coef1 <- coefs(pc.sdd.age.g1)[,8]
+coef2 <- coefs(pc.tssm.sdd.g1)[,8]
+coef3 <- coefs(pc.rbr.tssm.g1)[,8]
+
+ind.path.age.g1 <- (coef1*coef2*coef3)
+
+#east
+pc.sdd.age.g2 <- lme(sdd ~  age , random = ~1 | Fire_Year/size_class, na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.tssm.sdd.g2 <-  lme(tssm ~ sdd  ,  random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+pc.rbr.tssm.g2 <- lme(RBR_median ~ tssm, random = ~1 | Fire_Year/size_class,na.action = na.omit, data = new_data_e, method = "ML")
+
+coef1 <- coefs(pc.sdd.age.g2)[,8]
+coef2 <- coefs(pc.tssm.sdd.g2)[,8]
+coef3 <- coefs(pc.rbr.tssm.g2)[,8]
+
+ind.path.age.g2 <- (coef1*coef2*coef3)
+
+# create data frame
+names <- c("Indirect Pathway", "Path Coefficient", "Ecoregion")
+ind.mult.med <- matrix(c("Stand Age", "Biomass", "Canopy Closure",
+                         "Stand Age", "Biomass", "Canopy Closure",
+                         ind.path.age.g1, ind.path.age.g2, ind.path.bio.g1, ind.path.bio.g2, 
+                         ind.path.cc.g1, ind.path.cc.g2, "West", "East","West", "East","West", "East"), ncol = 3)
+ind.mult.med <-  as.table(ind.mult.med)
+colnames(ind.mult.med) <-  names
+df.ind.mult.med = as.data.frame.matrix(ind.mult.med)
+rownames(df.ind.mult.med) = NULL
+tbl.ind.mult.med<- tidyr::as_tibble(df.ind.mult.med)
+tbl.ind.mult.med<- dplyr::mutate(tbl.ind.mult.med, Response = rep("Median Burn Severity"))
+tbl.ind.mult.med$`Path Coefficient` <- round(as.numeric(tbl.ind.mult.med$`Path Coefficient`), digits = 3)
+
+# MEDIAN
+mmult_eff <- ggplot()+
+  geom_point(data = tbl.ind.mult.med, aes(x = `Path Coefficient`, y = `Indirect Pathway`, colour = Ecoregion), size = 5)+
+  theme_bw()+
+  theme(axis.title = element_text(size = 14, family = "Helvetica"), 
+        axis.text = element_text(size = 10, family = "Helvetica"),
+        plot.title = element_text(hjust = 0.5),
+        panel.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill=NA, linewidth=1)) + xlim(-0.015, 0.02)+ coord_flip()+ 
+  theme(legend.position ="right") + xlab("Standardized Effects")+
+  scale_colour_viridis_d("Ecoregion", option = "viridis") +
+  labs(title = "Median Burn Severity")
+
+# EXTREME
+
+emult_eff <- ggplot()+
+  geom_point(data = tbl.ind.mult.ext, aes(x = `Path Coefficient`, y = `Indirect Pathway`, colour = Ecoregion), size = 5)+
+  theme_bw()+
+  theme(axis.title = element_text(size = 14, family = "Helvetica"), 
+        axis.text = element_text(size = 10, family = "Helvetica"),
+        plot.title = element_text(hjust = 0.5),
+        panel.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill=NA, linewidth=1)) + coord_flip()+
+  theme(legend.position ="right") + xlab("Standardized Effects")+
+  scale_colour_viridis_d("Ecoregion", option = "viridis") +
+  labs(title = "Burn Severity Extremes")
+
+
+# Combine plots
+
+emult_eff + mmult_eff + plot_layout(guides = "collect") 
