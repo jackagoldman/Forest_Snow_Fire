@@ -20,7 +20,9 @@ install.packages(c(pkgs)
 
 ## Repository organization
 
-`code` folder contains analysis scripts and has a subfolder `functions` which contains functions required to reproduce analysis.
+`code` folder contains analysis scripts and has two subfolders:
+- `functions` which contains functions required to reproduce analysis.
+- `gee_scripts` contains novel data acquisition scripts for google earth engine
 
 `data` folder contains cleaned data used in the analysis.
 
@@ -29,7 +31,7 @@ install.packages(c(pkgs)
 
 [0_forest_snow_fire_data.csv](https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
 
-These are the cleaned data that are used to generate all analyses and figures in the paper. These data represent wildfire's that burned between 2001 and 2019 in the boreal shield of Ontario. For methodology see article.
+These are the cleaned data that are used to generate all analyses and figures in the paper. These data represent wildfires that burned between 2001 and 2019 in the boreal shield of Ontario. For methodology see article.
 
 | Variable            | Description| 
 | :---------------- | :------ | 
