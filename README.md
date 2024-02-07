@@ -19,3 +19,13 @@ install.packages(c(pkgs)
 ```
 
 [forest_snow_fire_data.csv](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
+
+These data.... 
+
+| Variable            | Description| 
+| :---------------- | :------: | 
+| Fire_ID        |  Unique name identifyer for each fire | 
+| Fire_Year          |   Year that the fire burned (YYYY)   | 
+| ...    |  False   | 
+| ... |  False   |
+
