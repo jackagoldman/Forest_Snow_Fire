@@ -23,7 +23,7 @@ install.packages(c(pkgs)
 These are the cleaned data that are used to generate all analyses and figures in the paper. These data represent wildfire's that burned between 2001 and 2019 in the boreal shield of Ontario. For methodology see article.
 
 | Variable            | Description| 
-| :---------------- | :------: | 
+| :---------------- | :------ | 
 | Fire_ID        |  Unique name identifyer for each fire | 
 | Fire_Year          |   Year that the fire burned (YYYY)   | 
 | Fire_Start    |  Date that fire started to burn as reported by Ontario Ministry of Natural Resources and Forestry (YYYY-MM-DD)   | 
