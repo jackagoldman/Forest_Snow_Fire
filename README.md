@@ -26,8 +26,23 @@ These data....
 | :---------------- | :------: | 
 | Fire_ID        |  Unique name identifyer for each fire | 
 | Fire_Year          |   Year that the fire burned (YYYY)   | 
-| ...    |  False   | 
-| ... |  False   |
+| Fire_Start    |  Date that fire started to burn as reported by Ontario Ministry of Natural Resources (YYYY-MM-DD)   | 
+| BurnDay |  Julian day of burn as identified using Google Earth Engine |
+| sdd | Snow disappearance date as indentified using Google Earth Engine |
+| tssm | |
+| avgBio ||
+| cc ||
+| age||
+| tri ||
+| RBR_median||
+| RBR_quant ||
+| RBR_cv ||
+| FIRE_FINAL ||
+| size_class ||
+| dc ||
+| pyroregion ||
+
+
 
 [1_sem_entire_boreal_shield.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/1_sem_entire_fire_boreal_shield.R)
 
