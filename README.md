@@ -18,16 +18,16 @@ install.packages(c(pkgs)
 
 ```
 
-## repository organization
+## Repository organization
 
 `code` folder contains analysis scripts and has a subfolder `functions` which contains functions required to reproduce analysis.
 
 `data` folder contains cleaned data used in the analysis.
 
 
-## file description
+## File description
 
-[forest_snow_fire_data.csv](https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
+[0_forest_snow_fire_data.csv](https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
 
 These are the cleaned data that are used to generate all analyses and figures in the paper. These data represent wildfire's that burned between 2001 and 2019 in the boreal shield of Ontario. For methodology see article.
 
@@ -55,18 +55,16 @@ These are the cleaned data that are used to generate all analyses and figures in
 
 [1_sem_entire_boreal_shield.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/1_sem_entire_fire_boreal_shield.R)
 
-Code to analyze...
+Code to analyze entire boreal shield (689 fires). This code runs a structural equation model for both median and extreme severity. It calculates the indirect effects using a custom function.
 
 [2_sem_east_west_shield.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/2_sem_east_west_shield_shield.R)
 
-Code to analyze...
+Code to analyze east and west boreal shield. This code runs four separate structural equation models for both median and extreme severity, one for each ecoregion. It then calcualtes the indirect effects using a custom function.
 
 [3_sem_multigroup_east_west.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/3_sem_multigroup_east_west.R)
 
-Code to analyze...
+Code to analyze difference between indirect pathways for east and west ecoregion using a multigroup analysis. This code requires the outputs of `1_sem_entire_boreal_shield.R`. It calculates the indirect effects and combines them into a dataframe before plotting the results.
 
 [4_sem_variability.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/3_sem_variability.R)
 
-Code to analyze...
-
-
+Code to analyze within-fire variability in burn severity for fires > 500 ha. This code runs a single structural equation model. It then calculates the indirect effects and plots the results. 
