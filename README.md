@@ -17,3 +17,5 @@ pkgs <- c("tidyverse", "piecewiseSEM", "ggplot2", "nlme")
 install.packages(c(pkgs)
 
 ```
+
+[forest_snow_fire_data.csv]((https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
