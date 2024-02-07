@@ -7,7 +7,7 @@ This Repository contains data and code for the manuscript:
 
 The files contained by this repository are numbered sequentially in the order they appear in our data analysis and figure generation workflow, each of which is described below. 
 
-To use our code, you will need the latest version of R installed.
+To use our code, you will need to install R version `4.3.0 (2023-04-21) or later` 
 
 Packages needed to reproduce these analyses are:
 
