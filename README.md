@@ -18,6 +18,10 @@ install.packages(c(pkgs)
 
 ```
 
+`code` folder contains analysis scripts and has a subfolder `functions` which contains functions required to reproduce analysis.
+
+`data` folder contains cleaned data used in the analysis.
+
 [forest_snow_fire_data.csv](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
 
 These are the cleaned data that are used to generate all analyses and figures in the paper. These data represent wildfire's that burned between 2001 and 2019 in the boreal shield of Ontario. For methodology see article.
