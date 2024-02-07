@@ -1,0 +1,159 @@
+//----------------------------------------------------------------------------------------//
+// This script calculates the julian day of burn for fires that burned after 2000. 
+// This script was modified from a previous script developed by Holsinger et al. 2021 to calculate burn severity indices:
+// Holsinger LM, Parks SA, Saperstein L, et al. 2021. Improved fire severity mapping in 
+//            the North American boreal forest using a hybrid composite method. 
+//            Remote Sensing in Ecology and Conservation.
+// 
+
+
+// Import shapefile with fire perimeter polygons that have the following attributes:
+//       NAME           DESCRIPTION
+//       Fire_ID        unique identifier for each fire 
+//       Fire_Year      year of fire
+
+
+// Import shapefile of fire perimeters
+var fires = ee.FeatureCollection('.......') 
+
+// Enter name of output folder for table in Google Drive
+var tablesFolder = 'StartDay'
+
+
+// ------------------------ CODE from Holsinger et al. 2021 -------------------------------//
+// Import both MODIS Aqua and Terra Satellite imagery for thermal anomalies
+var terraFire = ee.ImageCollection('MODIS/006/MOD14A1')  // Terra Thermal Anomalies & Fire Daily Global 1km
+var aquaFire  = ee.ImageCollection('MODIS/006/MYD14A1')  // Aqua Thermal Anomalies & Fire Daily Global 1km
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Filter MODIS collections for pixels that have 'nominal' or 'high' confidence of fire 
+
+//   Function to select pixels with nominal (8) or high (9) confidence of fire to create a 'fire' mask
+var highConf = function(image) {
+  // Compute the bits we need to extract.
+  var pattern = 0;
+  for (var i = 0; i <= 3; i++) {
+    pattern += Math.pow(2, i);
+  }
+  // Make a single band image of the extracted QA bits, giving the band a new name.
+  var bits = image.select('FireMask')
+  .bitwiseAnd(pattern)
+  .rightShift(0);
+  // MOD14 User Guide: Users requiring fewer false alarms (errors of commission)
+  //   may wish to retain nominal- and high-confidence fire pixels: 
+  //   classes 8 and 9, respectively.
+  return(image.updateMask(bits.gte(8).eq(1))) 
+}
+
+//  apply fire mask function to each MODIS feature collection
+terraFire=terraFire.map(highConf)
+aquaFire =aquaFire.map(highConf)  
+
+
+// Combine MODIS thermal image collections into one feature collection
+
+// Function to combine MODIS collections into one by matching each day
+//     Specify an equals filter for image timestamps.
+var filterTime = ee.Filter.equals({
+    leftField: 'system:time_start',
+    rightField: 'system:time_start'
+  });
+
+// Join Aqua and Terra collections using above filter based on timestamp 
+var merged_feats= ee.Join.inner().apply(aquaFire, terraFire, filterTime).sort('system:time_start');
+
+// Get daily max value of FireMask between Aqua and Terra images to determine if either platform
+//    detected an active fire pixel 
+var MODIS_highconf = merged_feats.map(function(feature) {
+  return ee.ImageCollection([feature.get('primary'), feature.get('secondary')])
+    .select('FireMask').max()
+    .copyProperties(feature.get('primary'), ['system:time_start'])
+});
+// -------------------- END OF CODE from Holsinger et al 2021 -------------------------------------------//
+
+// ----------------------------------MODIFIED FUNCTION FROM Holsinger et al 2021 -------------------------//
+//  Function to evaluate the first day when a pixel burned within each fire perimeter (i.e. SOF = Start Of Fire)
+
+var addSOF = function(ft){
+  // select fire and get fire year
+  var fireYear = ee.Number.parse(ft.get('Fire_Year'));
+  var fireBounds = ft.geometry().bounds();
+  // get start date
+  var fireStartep = ft.get('FIRE_START')
+  var fireStartDtep = ee.Date(fireStartep)
+  var frStartDay = fireStartDtep.format("D")
+  
+  // Create dummy raster image cliped to geometry of fire perimeter
+  // to be used in case a MODIS image timestep is missing
+  var clip = function(img) {return img.clip(ft);}   
+  var blank = ee.Image.constant(0).toUint8().rename('FireMask').clip(ft)
+  blank = blank.updateMask(blank)
+      
+  // MODIS thermal image collection slightly filtered down to narrower range of fire season dates (Mar 15 - Nov 16)
+  //    for faster processing, and to clip collection to fire perimeter and select FireMask
+  var collection = ee.ImageCollection(MODIS_highconf
+    .filterDate(ee.Date.fromYMD(fireYear,3,15), ee.Date.fromYMD(fireYear,11,16)))
+    .filterBounds(fireBounds)
+    .map(clip)
+    .select('FireMask');
+
+  // simplify fire perimeter for faster processing
+  var ftsimp = ee.Feature(ft).geometry().simplify(20)  
+  
+  // Create a list in days (in milliseconds) for the March 15 - Nov 15 period
+  var dayMillis = 24*60*60*1000;
+  var listdates = ee.List.sequence(ee.Date.fromYMD(fireYear,3,15).millis(), ee.Date.fromYMD(fireYear,11,15).millis(), dayMillis);
+
+  // function to get the total number of pixels burned within perimeter and the julian day (if no burning, pixel count is zero) 
+  var StartBurnDay = ee.ImageCollection.fromImages(listdates.map(function(day){
+        
+        // get modis image for day
+        var modis = ee.Image(collection.filterDate(day).first())
+        modis = ee.Image(ee.Algorithms.If(modis, modis, blank)); // if MODIS time step is missing, provide dummy image
+        
+        // Calculate the number of 'active' fire pixels inside the fire perimeter on that day
+        var pixelcount = modis.reduceRegion({
+          reducer: ee.Reducer.count(),
+          geometry: ftsimp,
+          crs:'EPSG:4326',  // WGS84
+          scale: 1000,
+          bestEffort:true,
+          tileScale: 1
+          }).getNumber('FireMask'); // Return the count of active fire pixels
+          
+        pixelcount = ee.Algorithms.If(pixelcount, pixelcount, ee.Number(0)); // if MODIS time step has no valid pixels, pixel count will be null; replace here with zero
+        var doy = ee.Date(day).format('D')                                   // get julian day
+        return ee.Image(modis).set('DOY', doy, 'BurnCount', pixelcount);
+  })) 
+  
+  // Get the first julian day that a burned pixel occurred within fire perimeter
+  var StarttDay = StartBurnDay.filter(ee.Filter.gt('BurnCount',0)).map(function(number) {                                                              
+        number = ee.Algorithms.If(number, number, ee.Number(0));  
+        return ee.Number(number)})
+        .aggregate_min('DOY');
+  
+// var Startday = StarttDay.reduceRegions({
+//   reducer: ee.Reducer.min(),
+//   geometry:ftsimp,
+//   crs: 'EPSG:4326',
+//   scale: 1000,
+//   bestEffort: true,
+//   tileScale:1}).getNumber('DOY')
+   
+  StarttDay = ee.Algorithms.If(StarttDay,StarttDay, frStartDay) 
+  return ft.set({StartBurnDay: StarttDay}).setGeometry(null)
+
+}
+
+///------------------       DONE WITH JULIAN DAY OF BURN PROCESSING    -------------------------------------//
+
+var StartDay = fires.map(addSOF) 
+
+
+Export.table.toDrive({
+    collection: StartDay,
+    description: 'boreal_fires_startday',
+    folder: tablesFolder,
+    fileFormat:  'CSV',
+    fileNamePrefix : 'boreal_fires_start'
+}); 
