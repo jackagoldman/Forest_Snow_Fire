@@ -3,7 +3,7 @@ This Repository contains data and code for the manuscript:
 
 - Direct and indirect effects of forest structure, snow-free date, and duration on wildfire burn severity in the boreal forest
 
-`The authors request that you cite the above article or the Zenodo repository when using these data or modified code to prepare a publication.`
+`The authors request that you cite the above article when using these data or modified code to prepare a publication.`
 
 The files contained by this repository are numbered sequentially in the order they appear in our data analysis and figure generation workflow, each of which is described below. 
 
