@@ -39,9 +39,9 @@ These are the cleaned data that are used to generate all analyses and figures in
 | BurnDay |  Julian day of burn as identified using Google Earth Engine |
 | sdd | Snow-free date as indentified using Google Earth Engine |
 | tssm | Snow-free duration calculated as difference between sdd and BurnDay |
-| avgBio | mean total aboveground biomass t/ ha|
-| cc | meanpercentage canopy closure|
-| age| mean stand age|
+| avgBio | mean total aboveground biomass (t/ ha)|
+| cc | mean canopy closure (%)|
+| age| mean stand age (YY)|
 | tri | mean terrain ruggedness index |
 | RBR_median| median relativized burn ratio |
 | RBR_quant | 90th percentile relativized burn ration|
