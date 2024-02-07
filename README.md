@@ -18,4 +18,4 @@ install.packages(c(pkgs)
 
 ```
 
-[forest_snow_fire_data.csv](!/github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)https://github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
+[forest_snow_fire_data.csv](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
