@@ -18,9 +18,14 @@ install.packages(c(pkgs)
 
 ```
 
+## repository organization
+
 `code` folder contains analysis scripts and has a subfolder `functions` which contains functions required to reproduce analysis.
 
 `data` folder contains cleaned data used in the analysis.
+
+
+## file description
 
 [forest_snow_fire_data.csv](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/data/0_forest_snow_fire_data.csv)
 
