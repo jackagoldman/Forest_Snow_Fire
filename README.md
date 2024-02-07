@@ -29,3 +29,20 @@ These data....
 | ...    |  False   | 
 | ... |  False   |
 
+[1_sem_entire_boreal_shield.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/1_sem_entire_fire_boreal_shield.R)
+
+Code to analyze...
+
+[2_sem_east_west_shield.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/2_sem_east_west_shield_shield.R)
+
+Code to analyze...
+
+[3_sem_multigroup_east_west.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/3_sem_multigroup_east_west.R)
+
+Code to analyze...
+
+[4_sem_variability.R](/github.com/jackagoldman/Forest_Snow_Fire/blob/main/code/3_sem_variability.R)
+
+Code to analyze...
+
+
