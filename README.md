@@ -1,4 +1,4 @@
-# Forest_Snow_Fire
+# Data and code to analyze the direct and indirect effects of forest structure and snow cover on wildfire burn severity
 This Repository contains data and code for the manuscript: 
 
 - Direct and indirect effects of forest structure, snow-free date, and duration on wildfire burn severity in the boreal forest
