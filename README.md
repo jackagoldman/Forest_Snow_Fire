@@ -12,7 +12,7 @@ To use our code, you will need to install R version `4.3.0 (2023-04-21) or later
 Packages needed to reproduce these analyses are:
 
 ```{r}
-pkgs <- c("tidyverse", "piecewiseSEM", "ggplot2", "nlme")
+pkgs <- c("tidyverse", "piecewiseSEM", "ggplot2", "nlme", "patchwork")
 
 install.packages(c(pkgs)
 
