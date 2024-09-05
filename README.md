@@ -1,9 +1,12 @@
+
+[![DOI](https://zenodo.org/badge/753884590.svg)](https://zenodo.org/doi/10.5281/zenodo.13694675)
+
 # Data and code to analyze the direct and indirect effects of forest structure and snow cover on wildfire burn severity
 This Repository contains data and code for the manuscript: 
 
 - Snow dynamics and forest structure interact to increase wildfire burn severity in the boreal forest
 
-`The authors request that you cite the above article when using these data or modified code to prepare a publication.`
+`The authors request that you cite the above article and the data when using these data or modified code to prepare a publication.`
 
 The files contained by this repository are numbered sequentially in the order they appear in our data analysis and figure generation workflow, each of which is described below. 
 
